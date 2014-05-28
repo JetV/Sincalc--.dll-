@@ -1,7 +1,6 @@
 #include "sincalc.h"
-#include <QDebug>
+#include <QVector>
 
-//extern "C" SINCALCSHARED_EXPORT
 
 extern "C" SINCALCSHARED_EXPORT
 double Focus(double y,double t)
@@ -18,7 +17,6 @@ double Interact(int r1, int r2, double k1, double A, double len) //TODO: нов�
 
     if (r1<=r2)
     {
-        qDebug()<<"Interact 1"<<endl;
         return 0;
     }
     else
@@ -52,6 +50,7 @@ void EulerCalc(UsrParm UP) // TODO: Принимает в качестве па�
     double length = fabs(x1-x2), WkForceCur = 0, WkForceNext = 0, y1 = 0, z1 = 0;
     double dist = length/(N-1);
 
+       
     double **ptrZ = new double* [N]; // N строки в массиве
     for (int count = 0; count < N; count++)
         ptrZ[count] = new double [M]; // и M столбцов

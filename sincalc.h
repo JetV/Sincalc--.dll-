@@ -6,15 +6,15 @@
 #include <QDebug> //TODO: Убрать
 
 
-
-extern "C" SINCALCSHARED_EXPORT
 struct UsrParm {
     double InitVal;
     double TmSec;
     double Stp;
     int BdyNum;
-    double PhsCoeff;
+    double FrcyCoeff;
     double AmpCoeff;
+    double LftEdge;
+    double RgtEdge;
     int PlotType;
 };
 
@@ -23,7 +23,7 @@ extern "C" SINCALCSHARED_EXPORT
 double Focus(double y,double t);
 
 extern "C" SINCALCSHARED_EXPORT
-double Interact(int r1, int r2, double k1, double A);
+double Interact(int r1, int r2, double k1, double A, double len);
 
 extern "C" SINCALCSHARED_EXPORT
 double Radial(double y);
