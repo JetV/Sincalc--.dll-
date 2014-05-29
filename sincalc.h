@@ -29,10 +29,10 @@ extern "C" SINCALCSHARED_EXPORT
 double Radial(double y);
 
 extern "C" SINCALCSHARED_EXPORT
-void EulerCalc(UsrParm UP); // TODO: Принимает в качестве параметра структуру со всеми данными
+double** EulerCalc(UsrParm UP); // TODO: Принимает в качестве параметра структуру со всеми данными
 //для вычисления от пользователя
 
 extern "C" SINCALCSHARED_EXPORT
-double SinCalc(double x, UsrParm UP);//Тестовая функция
+double SinCalc(double x, UsrParm UP, double*** resArr);//Тестовая функция
 
 #endif // SINCALC_H

@@ -1,7 +1,6 @@
 #include "sincalc.h"
-#include <QDebug>
+#include <QVector>
 
-//extern "C" SINCALCSHARED_EXPORT
 
 extern "C" SINCALCSHARED_EXPORT
 double Focus(double y,double t)
@@ -18,7 +17,6 @@ double Interact(int r1, int r2, double k1, double A, double len) //TODO: нов�
 
     if (r1<=r2)
     {
-        qDebug()<<"Interact 1"<<endl;
         return 0;
     }
     else
@@ -36,7 +34,7 @@ double Radial(double y)
 
 
 extern "C" SINCALCSHARED_EXPORT
-void EulerCalc(UsrParm UP) // TODO: Принимает в качестве параметра структуру со всеми данными
+double** EulerCalc(UsrParm UP) // TODO: Принимает в качестве параметра структуру со всеми данными
 //для вычисления от пользователя
 {
     qDebug()<<"Start"<<endl;
@@ -52,6 +50,9 @@ void EulerCalc(UsrParm UP) // TODO: Принимает в качестве па�
     double length = fabs(x1-x2), WkForceCur = 0, WkForceNext = 0, y1 = 0, z1 = 0;
     double dist = length/(N-1);
 
+    qDebug()<<"Step 1"<<endl;
+
+
     double **ptrZ = new double* [N]; // N строки в массиве
     for (int count = 0; count < N; count++)
         ptrZ[count] = new double [M]; // и M столбцов
@@ -64,8 +65,11 @@ void EulerCalc(UsrParm UP) // TODO: Принимает в качестве па�
         for (int count_col = 0; count_col<M; count_col++)
             ptrY[count_row][count_col] = UP.InitVal;
 
+    qDebug()<<"Step 2"<<endl;
+
 
     for (int i = 0 ; i<N; i++)
+
         for (int j = 0; j<M-2; j++)
         {
 
@@ -87,18 +91,20 @@ void EulerCalc(UsrParm UP) // TODO: Принимает в качестве па�
             y1 = 0;
             z1 = 0;
 
+
         }
 
-    qDebug()<<"Stop"<<endl;
-    return;
+    qDebug()<<"Stop = "<<ptrY;
+    return ptrY;
 }
 
 extern "C" SINCALCSHARED_EXPORT
-double SinCalc(double x, UsrParm UP)//Тестовая функция
+double SinCalc(double x, UsrParm UP, double*** resArr)//Тестовая функция
 {
     double y = sin(x);
 
-    EulerCalc(UP);
+    *resArr = EulerCalc(UP);
+    qDebug()<<"Step N"<<endl;
     return y;
 
 }
