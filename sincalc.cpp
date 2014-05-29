@@ -21,6 +21,7 @@ double Interact(int r1, int r2, double k1, double A, double len) //TODO: нов�
     }
     else
     {
+        //qDebug()<<"Interact = "<<A*sin(k1*(r1-r2))/len;
         return A*sin(k1*(r1-r2))/len;
     }
 }
@@ -46,9 +47,13 @@ double** EulerCalc(UsrParm UP) // TODO: Принимает в качестве �
     double x2 = UP.RgtEdge;
 
     //Собственные переменные функции
-    int M = T/h; //TODO: Проверить приведение типов! Шаг пока всегда должен быть кратен 10!!
+    double dM = T/h; //TODO: Проверить приведение типов! Шаг пока всегда должен быть кратен 10!!
     double length = fabs(x1-x2), WkForceCur = 0, WkForceNext = 0, y1 = 0, z1 = 0;
     double dist = length/(N-1);
+    int M = int(dM);
+
+    qDebug()<<"T = "<<T<<"h = "<<h<<"N = "<<N<<"x1 = "<<x1<<"x2 = "<<x2;
+    qDebug()<<"M = "<<M<<"length = "<<length<<"dist = "<<dist;
 
     qDebug()<<"Step 1"<<endl;
 
@@ -66,6 +71,7 @@ double** EulerCalc(UsrParm UP) // TODO: Принимает в качестве �
             ptrY[count_row][count_col] = UP.InitVal;
 
     qDebug()<<"Step 2"<<endl;
+    qDebug()<<"ptrY"<<*ptrY;
 
 
     for (int i = 0 ; i<N; i++)
@@ -82,6 +88,8 @@ double** EulerCalc(UsrParm UP) // TODO: Принимает в качестве �
             y1 = ptrY[i][j] + h*ptrZ[i][j];
             z1 = ptrZ[i][j] + h*(Focus(ptrY[i][j],h*j) + WkForceCur);
 
+            //qDebug()<<"Y1 = "<<y1;
+
             for (int m = 0; m<i-1; m++)
                  WkForceNext = WkForceNext + Radial(ptrY[m][j+1])*Interact(dist*i,dist*m,  UP.FrcyCoeff, UP.AmpCoeff, length);
 
@@ -94,7 +102,7 @@ double** EulerCalc(UsrParm UP) // TODO: Принимает в качестве �
 
         }
 
-    qDebug()<<"Stop = "<<ptrY;
+    qDebug()<<"Stop = "<<*ptrY;
     return ptrY;
 }
 
